@@ -9,9 +9,33 @@ namespace game
 {
     class BattleField : IDrawable
     {
-        readonly uint numberOfKingdoms;
+        readonly uint numberOfKingdoms, vSize, hSize;
+        private Array arrayOfKingdoms;
 
-        public BattleField(uint n)
+        public BattleField(uint hSize, uint vSize, uint numberOfKingdoms)
+        {
+            this.hSize = hSize;
+            this.vSize = vSize;
+            this.numberOfKingdoms = numberOfKingdoms;
+
+        }
+
+        public void Start()
+        {
+
+        }
+
+        public void Stop()
+        {
+
+        }
+
+        public void Pause()
+        {
+
+        }
+
+        public void Resume()
         {
 
         }
