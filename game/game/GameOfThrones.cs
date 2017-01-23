@@ -12,22 +12,21 @@ namespace game
 {
     public partial class GameOfThrones : Form
     {
+        
         public GameOfThrones()
         {
             InitializeComponent();
+            BattleField.Instance((uint) BattleFieldView.Width / 4, (uint) BattleFieldView.Height / 4);               
         }
 
         private void buttonStart_OnClick(object sender, EventArgs e)
         {
-            System.Drawing.Graphics graphis = this.BattleField.CreateGraphics();
-            System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(0, 0, 5, 5);
-            SolidBrush redBrush = new SolidBrush(Color.Red);
-            graphis.FillRectangle(redBrush, rectangle);          
+                DrawBattleField();     
         }
 
         public void DrawBattleField()
         {
-
+            BattleField.Instance().Draw(BattleFieldView.CreateGraphics());
         }
     }
 }
