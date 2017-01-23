@@ -18,24 +18,28 @@ namespace game
         public uint VSize { get; private set; }
         public uint NumberOfKingdoms { get; private set; }
 
-        private HashSet<Kingdom> kingdomHashSet;
-        private Dictionary<int, Color> kingdomColor;
+        private readonly HashSet<Kingdom> _kingdomHashSet;       
         private uint[,] fieldMap;
 
-        private BattleField(uint hSize, uint vSize, uint numberOfKingdoms)
+        private BattleField(uint hSize, uint vSize)
         {
             HSize = hSize;
             VSize = vSize;
-            NumberOfKingdoms = numberOfKingdoms;
+           
             fieldMap = new uint[HSize, VSize];
 
             rnd = new Random(Guid.NewGuid().GetHashCode());
-            kingdomHashSet = new HashSet<Kingdom>();
-            kingdomColor = new Dictionary<int, Color>();
+            _kingdomHashSet = new HashSet<Kingdom>
+            {
+                new Kingdom("Targaryens", Color.Black),
+                new Kingdom("Bartheons", Color.Yellow),
+                new Kingdom("Starks", Color.DarkGray),
+                new Kingdom("Lannisters", Color.Red)
+            };
 
-            uint evenSquare = (uint)Math.Floor((double)(HSize * VSize) / (double)numberOfKingdoms);
             Point point = new Point();
-            for (int i = 0; i < numberOfKingdoms; i++)
+            uint evenSquare = (uint) Math.Floor((HSize * VSize) / (double) _kingdomHashSet.Count);
+            for (int i = 0; i < _kingdomHashSet.Count; i++)
             {
                 for (int j = 0; j < evenSquare; j++)
                 {
@@ -45,27 +49,14 @@ namespace game
                         point.Y = (int)Math.Abs(rnd.Next() % VSize);
                     } while (fieldMap[point.X, point.Y] != 0);
                     fieldMap[point.X, point.Y] = (uint)i;
-                }
-                kingdomColor.Add(i, Color.FromArgb(rnd.Next(255), rnd.Next(255), rnd.Next(255)));
-
+                }                
             }
         }
 
-        public static BattleField Instance(uint hSize, uint vSize, uint numberOfKingdoms = 4)
+        public static BattleField Instance(uint hSize = 100, uint vSize = 100)
         {
-            return _instance ?? (_instance = new BattleField(hSize, vSize, numberOfKingdoms));
+            return _instance ?? (_instance = new BattleField(hSize, vSize));
         }
-
-        public static BattleField Instance()
-        {
-            if (_instance == null)
-            {
-                throw new NotImplementedException("BattleField.Instance(uint hSize, uint vSize, uint numberOfKingdoms) must be called first");
-            }
-            return _instance;
-        }
-
-
 
         public void Draw(Graphics graphics)
         {
@@ -80,7 +71,7 @@ namespace game
                     rectangle.Y = j * step;
                     rectangle.Width = step;
                     rectangle.Height = step;
-                    brush.Color = kingdomColor[(int)fieldMap[i, j]];
+                    brush.Color = _kingdomHashSet.ElementAt((int)fieldMap[i, j]).Color;
                     graphics.FillRectangle(brush, rectangle);
                 }
             }

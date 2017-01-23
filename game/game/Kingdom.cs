@@ -10,16 +10,14 @@ namespace game
     class Kingdom : Land, IFight
     {
         private readonly Random rnd;
+        public readonly Color Color;
+        public readonly String Name;
 
-        public Kingdom(Point point, uint square)
+        public Kingdom(String name, Color color)
         {
+            Name = name;
+            Color = color;
             rnd = new Random(Guid.NewGuid().GetHashCode());
-            uint currentSquare = 0;
-
-            do
-            {
-                
-            } while ( currentSquare < square);
         }
 
         // IFight
