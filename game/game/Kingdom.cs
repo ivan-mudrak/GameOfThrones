@@ -23,12 +23,12 @@ namespace game
         // IFight
         public void Attack(Kingdom otherKingdom)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Defend(Kingdom otherKingdom)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

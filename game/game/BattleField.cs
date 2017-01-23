@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace game
         public uint VSize { get; private set; }
         public uint NumberOfKingdoms { get; private set; }
 
-        private readonly HashSet<Kingdom> _kingdomHashSet;       
+        private readonly Collection<Kingdom> _kingdomCollection;       
         private uint[,] fieldMap;
 
         private BattleField(uint hSize, uint vSize)
@@ -29,7 +30,7 @@ namespace game
             fieldMap = new uint[HSize, VSize];
 
             rnd = new Random(Guid.NewGuid().GetHashCode());
-            _kingdomHashSet = new HashSet<Kingdom>
+            _kingdomCollection = new Collection<Kingdom>
             {
                 new Kingdom("Targaryens", Color.Black),
                 new Kingdom("Bartheons", Color.Yellow),
@@ -37,18 +38,20 @@ namespace game
                 new Kingdom("Lannisters", Color.Red)
             };
 
-            Point point = new Point();
-            uint evenSquare = (uint) Math.Floor((HSize * VSize) / (double) _kingdomHashSet.Count);
-            for (int i = 0; i < _kingdomHashSet.Count; i++)
+            int kingdomIndex = 0;
+            for (int i = 0; i < HSize; i++)
             {
-                for (int j = 0; j < evenSquare; j++)
+                for (int j = 0; j < VSize; j++)
                 {
-                    do
+                    if(i  < HSize / 2) 
                     {
-                        point.X = (int)Math.Abs(rnd.Next() % HSize);
-                        point.Y = (int)Math.Abs(rnd.Next() % VSize);
-                    } while (fieldMap[point.X, point.Y] != 0);
-                    fieldMap[point.X, point.Y] = (uint)i;
+                        kingdomIndex = (j < VSize / 2) ? 0 : 1;                                           
+                    }   
+                    else
+                    {
+                        kingdomIndex = (j < vSize / 2) ? 2 : 3;
+                    }
+                    fieldMap[i, j] = (uint) kingdomIndex;                
                 }                
             }
         }
@@ -56,6 +59,14 @@ namespace game
         public static BattleField Instance(uint hSize = 100, uint vSize = 100)
         {
             return _instance ?? (_instance = new BattleField(hSize, vSize));
+        }
+
+        public void Battle()
+        {
+            foreach(Kingdom kingdom in _kingdomCollection)
+            {
+                kingdom.Attack(_kingdomCollection.ElementAt(rnd.Next(4)));
+            }
         }
 
         public void Draw(Graphics graphics)
@@ -71,7 +82,7 @@ namespace game
                     rectangle.Y = j * step;
                     rectangle.Width = step;
                     rectangle.Height = step;
-                    brush.Color = _kingdomHashSet.ElementAt((int)fieldMap[i, j]).Color;
+                    brush.Color = _kingdomCollection.ElementAt((int)fieldMap[i, j]).Color;
                     graphics.FillRectangle(brush, rectangle);
                 }
             }

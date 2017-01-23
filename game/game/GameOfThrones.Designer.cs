@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonStart = new System.Windows.Forms.Button();
             this.BattleFieldView = new System.Windows.Forms.Panel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // buttonStart
@@ -50,6 +52,10 @@
             this.BattleFieldView.Size = new System.Drawing.Size(400, 400);
             this.BattleFieldView.TabIndex = 1;
             // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_OnTick);
+            // 
             // GameOfThrones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -67,6 +73,7 @@
 
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Panel BattleFieldView;
+        private System.Windows.Forms.Timer timer;
     }
 }
 
