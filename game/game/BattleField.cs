@@ -25,11 +25,10 @@ namespace game
         private BattleField(uint hSize, uint vSize)
         {
             HSize = hSize;
-            VSize = vSize;
-           
+            VSize = vSize;           
             fieldMap = new uint[HSize, VSize];
-
             rnd = new Random(Guid.NewGuid().GetHashCode());
+
             _kingdomCollection = new Collection<Kingdom>
             {
                 new Kingdom("Targaryens", Color.Black),
@@ -65,7 +64,10 @@ namespace game
         {
             foreach(Kingdom kingdom in _kingdomCollection)
             {
-                kingdom.Attack(_kingdomCollection.ElementAt(rnd.Next(4)));
+                int defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
+                _kingdomCollection.ElementAt(defedingKingdomIndex).
+
+                kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex));
             }
         }
 

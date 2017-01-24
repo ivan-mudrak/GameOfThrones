@@ -8,7 +8,7 @@ namespace game
 {
     interface IFight
     {
-        void Attack(Kingdom otherKingdom);
-        void Defend(Kingdom otherKingdom);
+        int Attack(Kingdom otherKingdom);
+        int Defend(Kingdom otherKingdom);
     }
 }
