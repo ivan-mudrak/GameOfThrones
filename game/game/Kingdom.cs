@@ -61,7 +61,7 @@ namespace game
             Points.Remove(point);
         }
 
-        public static Point GetNeigborPoint(Point sourcePoint, PointNeighbor whichNeighbor)
+   /*     public static Point GetNeigborPoint(Point sourcePoint, PointNeighbor whichNeighbor)
         {
             Point neighborPoint = Point.Empty;
             switch (whichNeighbor)
@@ -94,6 +94,7 @@ namespace game
 
             return neighborPoint;
         }
+        */
 
         public Point GetRandomPoint()
         {

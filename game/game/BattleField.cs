@@ -14,7 +14,6 @@ namespace game
 {
     class BattleField : IDrawable
     {
-        private static BattleField _instance;
         private static Bitmap _bitmap;
         private static Graphics _graphics;
         private const int Scale = 40;
@@ -26,20 +25,20 @@ namespace game
         private readonly Collection<Kingdom> _kingdomCollection;
         private uint[,] fieldMap;
 
-        private BattleField(int hSize, int vSize)
+        public BattleField(int hSize, int vSize, Dictionary<string, Color> kingdomsNameAndColor)
         {
-            HSize = hSize;
-            VSize = vSize;
+            HSize = hSize / Scale;
+            VSize = vSize / Scale;
             fieldMap = new uint[HSize, VSize];
             rnd = new Random(Guid.NewGuid().GetHashCode());
 
-            _kingdomCollection = new Collection<Kingdom>
+            _kingdomCollection = new Collection<Kingdom>();
+
+            for (int i = 0; i < kingdomsNameAndColor.Count; i++)
             {
-                new Kingdom("Targaryens", Color.Black),
-                new Kingdom("Bartheons", Color.Yellow),
-                new Kingdom("Starks", Color.DarkGray),
-                new Kingdom("Lannisters", Color.Red)
-            };
+                _kingdomCollection.Add(new Kingdom(kingdomsNameAndColor.ElementAt(i).Key,
+                                                   kingdomsNameAndColor.ElementAt(i).Value));
+            }                     
 
             for (int i = 0; i < HSize; i++)
             {
@@ -58,16 +57,7 @@ namespace game
                     _kingdomCollection.ElementAt(kingdomIndex).DistributePoint(new Point(i, j));
                 }
             }
-        }
-
-        public static BattleField Instance(int hSize = 400, int vSize = 400)
-        {
-            if (_instance == null)
-            {
-                _instance = new BattleField(hSize / Scale, vSize / Scale);
-            }
-            return _instance;
-        }
+        }   
 
         public Kingdom OwnerOf(Point point)
         {

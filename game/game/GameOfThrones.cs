@@ -13,12 +13,20 @@ namespace game
 {
     public partial class GameOfThrones : Form
     {
-        private bool _isStarted = false;        
+        private bool _isStarted = false;
+        private readonly BattleField battleField;
+        private readonly Dictionary<string, Color> kingdomsNameAndColor;
+      
 
         public GameOfThrones()
         {
             InitializeComponent();
-            BattleField.Instance(BattleFieldView.Width, BattleFieldView.Height);           
+            kingdomsNameAndColor = new Dictionary<string, Color>();
+            kingdomsNameAndColor.Add("Targaryens", Color.Black);
+            kingdomsNameAndColor.Add("Baratheons", Color.Yellow);
+            kingdomsNameAndColor.Add("Starks", Color.DarkGray);
+            kingdomsNameAndColor.Add("Lannisters", Color.Red);
+            battleField = new BattleField(BattleFieldView.Width, BattleFieldView.Height, kingdomsNameAndColor);        
         }
 
         private void buttonStart_OnClick(object sender, EventArgs e)
@@ -43,13 +51,13 @@ namespace game
         {
             if (!BattleFieldView.IsDisposed)
             {
-                BattleField.Instance().Draw(BattleFieldView.CreateGraphics());
+                battleField.Draw(BattleFieldView.CreateGraphics());
             }
         }
 
         private void timer_OnTick(object sender, EventArgs e)
         {
-            BattleField.Instance().Battle();
+            battleField.Battle();
             DrawBattleField();
         }   
     }
