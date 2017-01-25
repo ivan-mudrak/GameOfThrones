@@ -13,32 +13,32 @@ namespace game
     public partial class GameOfThrones : Form
     {
         private bool isStarted = false;
-
+   
         public GameOfThrones()
         {
             InitializeComponent();
-            BattleField.Instance((uint)BattleFieldView.Width / 4, (uint)BattleFieldView.Height / 4);
+            BattleField.Instance((uint)BattleFieldView.Width / 4, (uint)BattleFieldView.Height / 4);           
         }
 
         private void buttonStart_OnClick(object sender, EventArgs e)
         {
             if (!isStarted)
             {
-                DrawBattleField();
+                (new Task(DrawBattleField)).Start();
                 buttonStart.Text = "Stop";
-                timer.Interval = 10;
+                timer.Interval = 1;                
                 timer.Start();
-                isStarted = true;
+                isStarted = true;  
             }
             else
             {
                 buttonStart.Text = "Start";
                 timer.Stop();
-                isStarted = false;
+                isStarted = false;              
             }
         }
- 
-        public void DrawBattleField()
+
+        private void DrawBattleField()
         {
             BattleField.Instance().Draw(BattleFieldView.CreateGraphics());
         }
@@ -46,7 +46,7 @@ namespace game
         private void timer_OnTick(object sender, EventArgs e)
         {
             BattleField.Instance().Battle();
-            DrawBattleField();
-        }
+           (new Task(DrawBattleField)).Start();        
+        }   
     }
 }

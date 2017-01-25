@@ -19,7 +19,7 @@ namespace game
         public uint VSize { get; private set; }
         public uint NumberOfKingdoms { get; private set; }
 
-        private readonly Collection<Kingdom> _kingdomCollection;      
+        private readonly Collection<Kingdom> _kingdomCollection;
         private uint[,] fieldMap;
 
         private BattleField(uint hSize, uint vSize)
@@ -51,7 +51,7 @@ namespace game
                         kingdomIndex = (j < vSize / 2) ? 2 : 3;
                     }
                     fieldMap[i, j] = (uint)kingdomIndex;
-                    _kingdomCollection.ElementAt((int) kingdomIndex).AttachPoint(new Point(i, j));
+                    _kingdomCollection.ElementAt((int)kingdomIndex).DistributePoint(new Point(i, j));
                 }
             }
         }
@@ -77,9 +77,13 @@ namespace game
             foreach (Kingdom kingdom in _kingdomCollection)
             {
                 int defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
-                _kingdomCollection.ElementAt(defedingKingdomIndex).
+                Point conflictpoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
 
-                kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex));
+                if (0 < kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)))
+                {
+                    kingdom.AttachPointFrom(conflictpoint, _kingdomCollection.ElementAt(defedingKingdomIndex));
+                    fieldMap[conflictpoint.X, conflictpoint.Y] = (uint)_kingdomCollection.IndexOf(kingdom);
+                }
             }
         }
 
@@ -100,6 +104,7 @@ namespace game
                     graphics.FillRectangle(brush, rectangle);
                 }
             }
+
 
         }
     }

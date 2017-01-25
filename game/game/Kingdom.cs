@@ -42,8 +42,13 @@ namespace game
             Name = name;
             Color = color;
             rnd = new Random(Guid.NewGuid().GetHashCode());
+            Points = new Collection<Point>();
         }
 
+        public void DistributePoint(Point point)
+        {
+            Points.Add(point);
+        }
         public void AttachPointFrom(Point point, Kingdom fromKingdom)
         {
             Points.Add(point);
@@ -116,6 +121,7 @@ namespace game
                 else if (ourPower < otherKingdomPower)
                 {
                     result = -1;
+                    bonus--;
                 }
                 else
                 {
