@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace game
@@ -13,16 +15,18 @@ namespace game
     class BattleField : IDrawable
     {
         private static BattleField _instance;
+        private static Bitmap _bitmap;
+        private static Graphics _graphics;
+        private  const  int Scale = 4;
         private Random rnd;
 
-        public uint HSize { get; private set; }
-        public uint VSize { get; private set; }
-        public uint NumberOfKingdoms { get; private set; }
+        public int HSize { get; private set; }
+        public int VSize { get; private set; }       
 
         private readonly Collection<Kingdom> _kingdomCollection;
         private uint[,] fieldMap;
 
-        private BattleField(uint hSize, uint vSize)
+        private BattleField(int hSize, int vSize)
         {
             HSize = hSize;
             VSize = vSize;
@@ -51,20 +55,18 @@ namespace game
                         kingdomIndex = (j < vSize / 2) ? 2 : 3;
                     }
                     fieldMap[i, j] = (uint)kingdomIndex;
-                    _kingdomCollection.ElementAt((int)kingdomIndex).DistributePoint(new Point(i, j));
+                    _kingdomCollection.ElementAt(kingdomIndex).DistributePoint(new Point(i, j));
                 }
             }
         }
 
-        public static BattleField Instance(uint hSize = 100, uint vSize = 100)
+        public static BattleField Instance(int hSize = 400, int vSize = 400)
         {
-            return _instance ?? (_instance = new BattleField(hSize, vSize));
-        }
-
-
-        public Point PointAt(int x, int y)
-        {
-            return new Point(x, y);
+            if (_instance == null)
+            {
+                _instance = new BattleField(hSize / Scale, vSize / Scale);
+            }
+            return _instance;
         }
 
         public Kingdom OwnerOf(Point point)
@@ -77,35 +79,61 @@ namespace game
             foreach (Kingdom kingdom in _kingdomCollection)
             {
                 int defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
-                Point conflictpoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
+                Point conflictPoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
 
                 if (0 < kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)))
                 {
-                    kingdom.AttachPointFrom(conflictpoint, _kingdomCollection.ElementAt(defedingKingdomIndex));
-                    fieldMap[conflictpoint.X, conflictpoint.Y] = (uint)_kingdomCollection.IndexOf(kingdom);
+                    ChangePointOwner(conflictPoint, _kingdomCollection.ElementAt(defedingKingdomIndex), kingdom);                    
                 }
             }
         }
 
-        public void Draw(Graphics graphics)
+        private void ChangePointOwner(Point point, Kingdom fromKingdom, Kingdom toKingdom)
         {
-            int step = 4;
-            Rectangle rectangle = new Rectangle();
-            SolidBrush brush = new SolidBrush(Color.White);
+            toKingdom.AttachPointFrom(point, fromKingdom);
+            fieldMap[point.X, point.Y] = (uint)_kingdomCollection.IndexOf(toKingdom);
+
+            Rectangle rectangle = new Rectangle
+            {
+                Width = Scale,
+                Height = Scale,
+                X = point.X * Scale,
+                Y = point.Y * Scale
+            };
+            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt((int) fieldMap[point.X, point.Y]).Color);
+            _graphics.FillRectangle(brush, rectangle);
+        }        
+
+        public void Draw(Graphics graphicsOut)
+        {
+            if (_graphics == null)
+            {
+                CreateGraphics();
+            }        
+     
+           graphicsOut.DrawImage(_bitmap, 0, 0);
+        }
+
+        private void CreateGraphics()
+        {
+            _bitmap = new Bitmap(HSize * Scale, VSize * Scale);
+            _graphics = Graphics.FromImage(_bitmap);
+            Rectangle rectangle = new Rectangle
+            {
+                Width = Scale,
+                Height = Scale
+            };
+            SolidBrush brush = new SolidBrush(Color.Empty);
             for (int i = 0; i < HSize; i++)
             {
                 for (int j = 0; j < VSize; j++)
                 {
-                    rectangle.X = i * step;
-                    rectangle.Y = j * step;
-                    rectangle.Width = step;
-                    rectangle.Height = step;
+                    rectangle.X = i * Scale;
+                    rectangle.Y = j * Scale;
                     brush.Color = _kingdomCollection.ElementAt((int)fieldMap[i, j]).Color;
-                    graphics.FillRectangle(brush, rectangle);
+                    _graphics.FillRectangle(brush, rectangle);
                 }
             }
-
-
         }
     }
 }

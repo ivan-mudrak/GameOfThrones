@@ -66,28 +66,28 @@ namespace game
             switch (whichNeighbor)
             {
                 case PointNeighbor.Top:
-                    neighborPoint = (sourcePoint.Y > 0) ? BattleField.Instance().PointAt(sourcePoint.X, sourcePoint.Y - 1) : Point.Empty;
+                    neighborPoint = (sourcePoint.Y > 0) ? new Point(sourcePoint.X, sourcePoint.Y - 1) : Point.Empty;
                     break;
                 case PointNeighbor.TopRight:
-                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y > 0)) ? BattleField.Instance().PointAt(sourcePoint.X + 1, sourcePoint.Y - 1) : Point.Empty;
+                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y > 0)) ? new Point(sourcePoint.X + 1, sourcePoint.Y - 1) : Point.Empty;
                     break;
                 case PointNeighbor.Right:
-                    neighborPoint = (sourcePoint.X < BattleField.Instance().HSize - 1) ? BattleField.Instance().PointAt(sourcePoint.X + 1, sourcePoint.Y) : Point.Empty;
+                    neighborPoint = (sourcePoint.X < BattleField.Instance().HSize - 1) ? new Point(sourcePoint.X + 1, sourcePoint.Y) : Point.Empty;
                     break;
                 case PointNeighbor.BottomRight:
-                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? BattleField.Instance().PointAt(sourcePoint.X + 1, sourcePoint.Y + 1) : Point.Empty;
+                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? new Point(sourcePoint.X + 1, sourcePoint.Y + 1) : Point.Empty;
                     break;
                 case PointNeighbor.Bottom:
-                    neighborPoint = (sourcePoint.Y < BattleField.Instance().VSize - 1) ? BattleField.Instance().PointAt(sourcePoint.X, sourcePoint.Y + 1) : Point.Empty;
+                    neighborPoint = (sourcePoint.Y < BattleField.Instance().VSize - 1) ? new Point(sourcePoint.X, sourcePoint.Y + 1) : Point.Empty;
                     break;
                 case PointNeighbor.BottomLeft:
-                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? BattleField.Instance().PointAt(sourcePoint.X - 1, sourcePoint.Y + 1) : Point.Empty;
+                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? new Point(sourcePoint.X - 1, sourcePoint.Y + 1) : Point.Empty;
                     break;
                 case PointNeighbor.Left:
-                    neighborPoint = (sourcePoint.X > 0) ? BattleField.Instance().PointAt(sourcePoint.X - 1, sourcePoint.Y) : Point.Empty;
+                    neighborPoint = (sourcePoint.X > 0) ? new Point(sourcePoint.X - 1, sourcePoint.Y) : Point.Empty;
                     break;
                 case PointNeighbor.TopLeft:
-                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y > 0)) ? BattleField.Instance().PointAt(sourcePoint.X - 1, sourcePoint.Y - 1) : Point.Empty;
+                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y > 0)) ? new Point(sourcePoint.X - 1, sourcePoint.Y - 1) : Point.Empty;
                     break;
             }
 

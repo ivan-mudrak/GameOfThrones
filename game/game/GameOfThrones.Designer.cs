@@ -51,6 +51,7 @@
             this.BattleFieldView.Name = "BattleFieldView";
             this.BattleFieldView.Size = new System.Drawing.Size(400, 400);
             this.BattleFieldView.TabIndex = 1;
+           
             // 
             // timer
             // 
