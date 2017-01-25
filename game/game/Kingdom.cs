@@ -30,12 +30,13 @@ namespace game
         }
 
         private readonly Random rnd;
-        private int bonus = 0;
+        private int _bonus = 0;
         public readonly Color Color;
         public readonly String Name;
 
         private static readonly Kingdom _Empty = new Kingdom(String.Empty, Color.Empty);
         public static Kingdom Empty { get { return _Empty; } }
+        public bool IsEmpty() { return Points.Count == 0; }
 
         public Kingdom(String name, Color color)
         {
@@ -54,7 +55,7 @@ namespace game
             Points.Add(point);
             fromKingdom.GiveUpPoint(point);
         }
-        
+
         public void GiveUpPoint(Point point)
         {
             Points.Remove(point);
@@ -94,7 +95,6 @@ namespace game
             return neighborPoint;
         }
 
-
         public Point GetRandomPoint()
         {
             return Points[rnd.Next(Points.Count)];
@@ -106,7 +106,7 @@ namespace game
             int result;
             if (this.Name.Equals(otherKingdom.Name))
             {
-                bonus++;
+                _bonus++;
                 result = 0;
             }
             else
@@ -121,7 +121,7 @@ namespace game
                 else if (ourPower < otherKingdomPower)
                 {
                     result = -1;
-                    bonus--;
+                    _bonus--;
                 }
                 else
                 {
@@ -134,8 +134,8 @@ namespace game
 
         public int Defend(Kingdom otherKingdom)
         {
-            int power = bonus + rnd.Next(100);
-            bonus = 0;
+            int power = _bonus + rnd.Next(100);
+            _bonus = 0;
             return power;
         }
     }

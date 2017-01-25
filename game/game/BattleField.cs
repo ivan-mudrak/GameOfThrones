@@ -17,11 +17,11 @@ namespace game
         private static BattleField _instance;
         private static Bitmap _bitmap;
         private static Graphics _graphics;
-        private  const  int Scale = 4;
+        private const int Scale = 40;
         private Random rnd;
 
         public int HSize { get; private set; }
-        public int VSize { get; private set; }       
+        public int VSize { get; private set; }
 
         private readonly Collection<Kingdom> _kingdomCollection;
         private uint[,] fieldMap;
@@ -76,16 +76,28 @@ namespace game
 
         public void Battle()
         {
+            Stack<int> kingdomIndiciesToRemove = new Stack<int>();
             foreach (Kingdom kingdom in _kingdomCollection)
             {
-                int defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
-                Point conflictPoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
+                int defedingKingdomIndex;
+                do
+                {
+                    defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
+                } while (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty());
 
+                Point conflictPoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
                 if (0 < kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)))
                 {
-                    ChangePointOwner(conflictPoint, _kingdomCollection.ElementAt(defedingKingdomIndex), kingdom);                    
+                    ChangePointOwner(conflictPoint, _kingdomCollection.ElementAt(defedingKingdomIndex), kingdom);
+                    if (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty()) { kingdomIndiciesToRemove.Push(defedingKingdomIndex);}
                 }
             }
+
+            while (kingdomIndiciesToRemove.Count > 0)
+            {
+                DestroyKingdom(_kingdomCollection.ElementAt(kingdomIndiciesToRemove.Pop()));
+            }
+            
         }
 
         private void ChangePointOwner(Point point, Kingdom fromKingdom, Kingdom toKingdom)
@@ -100,18 +112,23 @@ namespace game
                 X = point.X * Scale,
                 Y = point.Y * Scale
             };
-            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt((int) fieldMap[point.X, point.Y]).Color);
+            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt((int)fieldMap[point.X, point.Y]).Color);
             _graphics.FillRectangle(brush, rectangle);
-        }        
+        }
+
+        private void DestroyKingdom(Kingdom kingdomToDestroy)
+        {
+            _kingdomCollection.Remove(kingdomToDestroy);
+        }
 
         public void Draw(Graphics graphicsOut)
         {
             if (_graphics == null)
             {
                 CreateGraphics();
-            }        
-     
-           graphicsOut.DrawImage(_bitmap, 0, 0);
+            }
+
+            graphicsOut.DrawImage(_bitmap, 0, 0);
         }
 
         private void CreateGraphics()
