@@ -19,13 +19,13 @@ namespace game
         public uint VSize { get; private set; }
         public uint NumberOfKingdoms { get; private set; }
 
-        private readonly Collection<Kingdom> _kingdomCollection;       
+        private readonly Collection<Kingdom> _kingdomCollection;      
         private uint[,] fieldMap;
 
         private BattleField(uint hSize, uint vSize)
         {
             HSize = hSize;
-            VSize = vSize;           
+            VSize = vSize;
             fieldMap = new uint[HSize, VSize];
             rnd = new Random(Guid.NewGuid().GetHashCode());
 
@@ -37,21 +37,22 @@ namespace game
                 new Kingdom("Lannisters", Color.Red)
             };
 
-            int kingdomIndex = 0;
             for (int i = 0; i < HSize; i++)
             {
                 for (int j = 0; j < VSize; j++)
                 {
-                    if(i  < HSize / 2) 
+                    var kingdomIndex = 0;
+                    if (i < HSize / 2)
                     {
-                        kingdomIndex = (j < VSize / 2) ? 0 : 1;                                           
-                    }   
+                        kingdomIndex = (j < VSize / 2) ? 0 : 1;
+                    }
                     else
                     {
                         kingdomIndex = (j < vSize / 2) ? 2 : 3;
                     }
-                    fieldMap[i, j] = (uint) kingdomIndex;                
-                }                
+                    fieldMap[i, j] = (uint)kingdomIndex;
+                    _kingdomCollection.ElementAt((int) kingdomIndex).AttachPoint(new Point(i, j));
+                }
             }
         }
 
@@ -60,9 +61,20 @@ namespace game
             return _instance ?? (_instance = new BattleField(hSize, vSize));
         }
 
+
+        public Point PointAt(int x, int y)
+        {
+            return new Point(x, y);
+        }
+
+        public Kingdom OwnerOf(Point point)
+        {
+            return _kingdomCollection.ElementAt((int)fieldMap[point.X, point.Y]);
+        }
+
         public void Battle()
         {
-            foreach(Kingdom kingdom in _kingdomCollection)
+            foreach (Kingdom kingdom in _kingdomCollection)
             {
                 int defedingKingdomIndex = rnd.Next(_kingdomCollection.Count);
                 _kingdomCollection.ElementAt(defedingKingdomIndex).

@@ -3,35 +3,48 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace game
 {
+    enum FieldNeighbor
+    {
+        Top,
+        TopRight,
+        Right,
+        BottomRight,
+        Bottom,
+        BottomLeft,
+        Left,
+        TopLeft
+    }
+
     class Field
     {
-        readonly Point point;
+        private readonly Point _point;
 
-        public Field(Point point)
+        public Field(int x, int y, Kingdom kingdom)
         {
-            this.point = point;
+            _point = new Point(x, y);
+            OwnerKingdom = kingdom;
+        }
+
+        public Field(Point point, Kingdom kingdom)
+        {
+            _point = point;
+            OwnerKingdom = kingdom;
         }
 
         public static explicit operator Point(Field field)
         {
-            return field.point;
+            return field._point;
         }
 
-        public Kingdom ownerKingdom
-        {
-            get { return _ownerKingdom; }
-            set { _ownerKingdom = value; }
-        }
-        private Kingdom _ownerKingdom;
+        public Kingdom OwnerKingdom { get; set; }
 
-        public bool IsOccupied()
-        {
-            return _ownerKingdom != null;
-        }
+        private static readonly Field _Empty = new Field(Point.Empty, Kingdom.Empty);
+        public static Field Empty { get { return _Empty; }}        
     }
 }
