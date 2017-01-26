@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace game
 {
     abstract class Land 
-    {         
-        public virtual bool Contains(Point point)
+    {
+        public virtual Point GetRandomPoint()
         {
-            return false;
+            return Point.Empty;
         }
 
         public virtual void AttachPoint(Point point)

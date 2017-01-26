@@ -40,6 +40,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelLannisters = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.labelWiner = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonStart
@@ -138,11 +139,21 @@
             this.panel4.Size = new System.Drawing.Size(10, 11);
             this.panel4.TabIndex = 8;
             // 
+            // labelWiner
+            // 
+            this.labelWiner.AutoSize = true;
+            this.labelWiner.Location = new System.Drawing.Point(470, 152);
+            this.labelWiner.Name = "labelWiner";
+            this.labelWiner.Size = new System.Drawing.Size(0, 13);
+            this.labelWiner.TabIndex = 9;
+            this.labelWiner.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // GameOfThrones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(581, 422);
+            this.Controls.Add(this.labelWiner);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.labelLannisters);
             this.Controls.Add(this.panel3);
@@ -153,6 +164,7 @@
             this.Controls.Add(this.labelTargaryens);
             this.Controls.Add(this.BattleFieldView);
             this.Controls.Add(this.buttonStart);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "GameOfThrones";
             this.Text = "GameOfThrones";
@@ -173,6 +185,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label labelLannisters;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label labelWiner;
     }
 }
 

@@ -1,26 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace game
 {
-    enum PointNeighbor
-    {
-        Top,
-        TopRight,
-        Right,
-        BottomRight,
-        Bottom,
-        BottomLeft,
-        Left,
-        TopLeft
-    }
-
     class Kingdom : Land, IFight
     {
         public Collection<Point> Points
@@ -29,7 +12,7 @@ namespace game
             private set;
         }
 
-        private readonly Random rnd;
+        private readonly Random _rnd;
         private int _bonus = 0;
         public readonly Color Color;
         public readonly String Name;
@@ -42,7 +25,7 @@ namespace game
         {
             Name = name;
             Color = color;
-            rnd = new Random(Guid.NewGuid().GetHashCode());
+            _rnd = new Random(Guid.NewGuid().GetHashCode());
             Points = new Collection<Point>();
         }
 
@@ -62,37 +45,37 @@ namespace game
             Points.Remove(point);
         }   
 
-        public Point GetRandomPoint()
+        public override Point GetRandomPoint()
         {
-            return Points[rnd.Next(Points.Count)];
+            return Points[_rnd.Next(Points.Count)];
         }
 
         // IFight
-        public int Attack(Kingdom otherKingdom)
+        public BattleResult Attack(Kingdom otherKingdom)
         {
-            int result;
+            BattleResult result;
             if (this.Name.Equals(otherKingdom.Name))
             {
                 _bonus++;
-                result = 0;
+                result = BattleResult.Draw;
             }
             else
             {
-                int ourPower = rnd.Next(100);
+                int ourPower = _rnd.Next(100);
                 int otherKingdomPower = otherKingdom.Defend(this);
 
                 if (ourPower > otherKingdomPower)
                 {
-                    result = 1;
+                    result = BattleResult.Win;
                 }
                 else if (ourPower < otherKingdomPower)
                 {
-                    result = -1;
+                    result = BattleResult.Lose;
                     _bonus--;
                 }
                 else
                 {
-                    result = 0;
+                    result = BattleResult.Draw;
                 }
             }
 
@@ -101,7 +84,7 @@ namespace game
 
         public int Defend(Kingdom otherKingdom)
         {
-            int power = _bonus + rnd.Next(100);
+            int power = _bonus + _rnd.Next(100);
             _bonus = 0;
             return power;
         }

@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace game
+﻿namespace game
 {
+    enum BattleResult
+    {
+        Win = 1,
+        Draw = 0,
+        Lose = -1
+    }
+
     interface IFight
     {
-        int Attack(Kingdom otherKingdom);
+        BattleResult Attack(Kingdom otherKingdom);
         int Defend(Kingdom otherKingdom);
     }
 }

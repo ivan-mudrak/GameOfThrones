@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace game
 {
@@ -75,7 +69,7 @@ namespace game
                 } while (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty());
 
                 Point conflictPoint = _kingdomCollection.ElementAt(defedingKingdomIndex).GetRandomPoint();
-                if (0 < kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)))
+                if (kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)) == BattleResult.Win)
                 {
                     ChangePointOwner(conflictPoint, _kingdomCollection.ElementAt(defedingKingdomIndex), kingdom);
                     if (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty()) { kingdomIndiciesToRemove.Push(defedingKingdomIndex); }
