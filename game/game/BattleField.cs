@@ -23,21 +23,21 @@ namespace game
         public int VSize { get; private set; }
 
         private readonly Collection<Kingdom> _kingdomCollection;
-        private uint[,] fieldMap;
+        private int[,] fieldMap;
 
-        public BattleField(int hSize, int vSize, Dictionary<string, Color> kingdomsNameAndColor)
+        public BattleField(int hSize, int vSize, Dictionary<string, Color> kingdomsNameColorDictionary)
         {
             HSize = hSize / Scale;
             VSize = vSize / Scale;
-            fieldMap = new uint[HSize, VSize];
+            fieldMap = new int[HSize, VSize];
             rnd = new Random(Guid.NewGuid().GetHashCode());
 
             _kingdomCollection = new Collection<Kingdom>();
 
-            for (int i = 0; i < kingdomsNameAndColor.Count; i++)
+            for (int i = 0; i < kingdomsNameColorDictionary.Count; i++)
             {
-                _kingdomCollection.Add(new Kingdom(kingdomsNameAndColor.ElementAt(i).Key,
-                                                   kingdomsNameAndColor.ElementAt(i).Value));
+                _kingdomCollection.Add(new Kingdom(kingdomsNameColorDictionary.ElementAt(i).Key,
+                                                   kingdomsNameColorDictionary.ElementAt(i).Value));
             }                     
 
             for (int i = 0; i < HSize; i++)
@@ -51,12 +51,12 @@ namespace game
                     }
                     else
                     {
-                        kingdomIndex = (j < vSize / 2) ? 2 : 3;
+                        kingdomIndex = (j < VSize / 2) ? 2 : 3;
                     }
-                    fieldMap[i, j] = (uint)kingdomIndex;
-                    _kingdomCollection.ElementAt(kingdomIndex).DistributePoint(new Point(i, j));
+                    fieldMap[i, j] = kingdomIndex;
+                    _kingdomCollection.ElementAt(kingdomIndex).AttachPoint(new Point(i, j));
                 }
-            }
+            }           
         }   
 
         public Kingdom OwnerOf(Point point)
@@ -93,7 +93,7 @@ namespace game
         private void ChangePointOwner(Point point, Kingdom fromKingdom, Kingdom toKingdom)
         {
             toKingdom.AttachPointFrom(point, fromKingdom);
-            fieldMap[point.X, point.Y] = (uint)_kingdomCollection.IndexOf(toKingdom);
+            fieldMap[point.X, point.Y] = _kingdomCollection.IndexOf(toKingdom);
 
             Rectangle rectangle = new Rectangle
             {
@@ -102,7 +102,7 @@ namespace game
                 X = point.X * Scale,
                 Y = point.Y * Scale
             };
-            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt((int)fieldMap[point.X, point.Y]).Color);
+            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt(fieldMap[point.X, point.Y]).Color);
             _graphics.FillRectangle(brush, rectangle);
         }
 
@@ -111,7 +111,21 @@ namespace game
             _kingdomCollection.Remove(kingdomToDestroy);
         }
 
-        public void Draw(Graphics graphicsOut)
+        public int GetKingdomScore(string kingdomName)
+        {
+            int score = 0;
+            var linqKingdom = from kingdom in _kingdomCollection
+                where (kingdom.Name.Equals(kingdomName))
+                select kingdom;
+            if (linqKingdom.Any())
+            {
+                score = linqKingdom.First().Points.Count;
+            }
+
+            return score;
+        }
+
+        public void DrawOnGraphics(Graphics graphicsOut)
         {
             if (_graphics == null)
             {

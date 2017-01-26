@@ -16,12 +16,17 @@ namespace game
             return false;
         }
 
-        public virtual void Append(Point point)
+        public virtual void AttachPoint(Point point)
         {
             
         }
 
-        public virtual void Remove(Point point)
+        public virtual void AttachPointFrom(Point point, Land fromLand)
+        {
+
+        }
+
+        public virtual void RemovePoint(Point point)
         {
             
         }

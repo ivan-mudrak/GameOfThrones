@@ -9,6 +9,6 @@ namespace game
 {
     interface IDrawable
     {
-        void Draw(Graphics graphics);
+        void DrawOnGraphics(Graphics graphics);
     }
 }

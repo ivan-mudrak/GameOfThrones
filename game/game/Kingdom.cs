@@ -46,17 +46,18 @@ namespace game
             Points = new Collection<Point>();
         }
 
-        public void DistributePoint(Point point)
+        public override void AttachPoint(Point point)
         {
             Points.Add(point);
         }
-        public void AttachPointFrom(Point point, Kingdom fromKingdom)
+  
+        public override void AttachPointFrom(Point point, Land fromKingdom)
         {
             Points.Add(point);
-            fromKingdom.GiveUpPoint(point);
+            fromKingdom.RemovePoint(point);
         }
 
-        public void GiveUpPoint(Point point)
+        public override void RemovePoint(Point point)
         {
             Points.Remove(point);
         }

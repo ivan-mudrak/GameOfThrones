@@ -14,26 +14,28 @@ namespace game
     public partial class GameOfThrones : Form
     {
         private bool _isStarted = false;
-        private readonly BattleField battleField;
-        private readonly Dictionary<string, Color> kingdomsNameAndColor;
-      
+        private readonly Graphics _graphics;
+        private readonly BattleField _battleField;
+        private readonly Dictionary<string, Color> kingdomsNameColorDictionary;
+
 
         public GameOfThrones()
         {
             InitializeComponent();
-            kingdomsNameAndColor = new Dictionary<string, Color>();
-            kingdomsNameAndColor.Add("Targaryens", Color.Black);
-            kingdomsNameAndColor.Add("Baratheons", Color.Yellow);
-            kingdomsNameAndColor.Add("Starks", Color.DarkGray);
-            kingdomsNameAndColor.Add("Lannisters", Color.Red);
-            battleField = new BattleField(BattleFieldView.Width, BattleFieldView.Height, kingdomsNameAndColor);        
+            _graphics = BattleFieldView.CreateGraphics();
+            kingdomsNameColorDictionary = new Dictionary<string, Color>();
+            kingdomsNameColorDictionary.Add("Targaryens", Color.Black);
+            kingdomsNameColorDictionary.Add("Baratheons", Color.Yellow);
+            kingdomsNameColorDictionary.Add("Starks", Color.DarkGray);
+            kingdomsNameColorDictionary.Add("Lannisters", Color.Red);
+            _battleField = new BattleField(BattleFieldView.Width, BattleFieldView.Height, kingdomsNameColorDictionary);          
         }
 
         private void buttonStart_OnClick(object sender, EventArgs e)
         {
             if (!_isStarted)
             {
-                DrawBattleField();
+                _battleField.DrawOnGraphics(_graphics);              
                 buttonStart.Text = "Stop";
                 timer.Interval = 1;
                 timer.Start();
@@ -47,18 +49,14 @@ namespace game
             }
         }
 
-        private void DrawBattleField()
-        {
-            if (!BattleFieldView.IsDisposed)
-            {
-                battleField.Draw(BattleFieldView.CreateGraphics());
-            }
-        }
-
         private void timer_OnTick(object sender, EventArgs e)
         {
-            battleField.Battle();
-            DrawBattleField();
-        }   
+            _battleField.Battle();
+            _battleField.DrawOnGraphics(_graphics);
+            labelTargaryens.Text = String.Format("Targaryens - {0}", _battleField.GetKingdomScore("Targaryens"));
+            labelBaratheons.Text = String.Format("Baratheons - {0}", _battleField.GetKingdomScore("Baratheons"));
+            labelStarks.Text = String.Format("Starks - {0}", _battleField.GetKingdomScore("Starks"));
+            labelLannisters.Text = String.Format("Lannisters - {0}", _battleField.GetKingdomScore("Lannisters"));                                    
+        }
     }
 }

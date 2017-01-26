@@ -32,13 +32,13 @@
             this.buttonStart = new System.Windows.Forms.Button();
             this.BattleFieldView = new System.Windows.Forms.Panel();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelTargaryens = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelBaratheons = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelStarks = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelLannisters = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -55,6 +55,7 @@
             // BattleFieldView
             // 
             this.BattleFieldView.BackColor = System.Drawing.Color.White;
+            this.BattleFieldView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.BattleFieldView.Location = new System.Drawing.Point(12, 12);
             this.BattleFieldView.Name = "BattleFieldView";
             this.BattleFieldView.Size = new System.Drawing.Size(400, 400);
@@ -64,14 +65,14 @@
             // 
             this.timer.Tick += new System.EventHandler(this.timer_OnTick);
             // 
-            // label1
+            // labelTargaryens
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(450, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Targaryens";
+            this.labelTargaryens.AutoSize = true;
+            this.labelTargaryens.Location = new System.Drawing.Point(450, 27);
+            this.labelTargaryens.Name = "labelTargaryens";
+            this.labelTargaryens.Size = new System.Drawing.Size(60, 13);
+            this.labelTargaryens.TabIndex = 2;
+            this.labelTargaryens.Text = "Targaryens";
             // 
             // panel1
             // 
@@ -82,14 +83,14 @@
             this.panel1.Size = new System.Drawing.Size(10, 11);
             this.panel1.TabIndex = 3;
             // 
-            // label2
+            // labelBaratheons
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(450, 53);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Baratheons";
+            this.labelBaratheons.AutoSize = true;
+            this.labelBaratheons.Location = new System.Drawing.Point(450, 53);
+            this.labelBaratheons.Name = "labelBaratheons";
+            this.labelBaratheons.Size = new System.Drawing.Size(61, 13);
+            this.labelBaratheons.TabIndex = 4;
+            this.labelBaratheons.Text = "Baratheons";
             // 
             // panel2
             // 
@@ -100,14 +101,14 @@
             this.panel2.Size = new System.Drawing.Size(10, 11);
             this.panel2.TabIndex = 5;
             // 
-            // label3
+            // labelStarks
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(450, 79);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Starks";
+            this.labelStarks.AutoSize = true;
+            this.labelStarks.Location = new System.Drawing.Point(450, 79);
+            this.labelStarks.Name = "labelStarks";
+            this.labelStarks.Size = new System.Drawing.Size(37, 13);
+            this.labelStarks.TabIndex = 6;
+            this.labelStarks.Text = "Starks";
             // 
             // panel3
             // 
@@ -118,14 +119,14 @@
             this.panel3.Size = new System.Drawing.Size(10, 11);
             this.panel3.TabIndex = 7;
             // 
-            // label4
+            // labelLannisters
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(450, 106);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Lannisters";
+            this.labelLannisters.AutoSize = true;
+            this.labelLannisters.Location = new System.Drawing.Point(450, 106);
+            this.labelLannisters.Name = "labelLannisters";
+            this.labelLannisters.Size = new System.Drawing.Size(55, 13);
+            this.labelLannisters.TabIndex = 8;
+            this.labelLannisters.Text = "Lannisters";
             // 
             // panel4
             // 
@@ -142,13 +143,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(581, 422);
             this.Controls.Add(this.panel4);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelLannisters);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelStarks);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelBaratheons);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelTargaryens);
             this.Controls.Add(this.BattleFieldView);
             this.Controls.Add(this.buttonStart);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -163,13 +164,13 @@
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Panel BattleFieldView;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelTargaryens;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelBaratheons;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelStarks;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelLannisters;
         private System.Windows.Forms.Panel panel4;
     }
 }
