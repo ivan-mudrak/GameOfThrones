@@ -60,42 +60,7 @@ namespace game
         public override void RemovePoint(Point point)
         {
             Points.Remove(point);
-        }
-
-   /*     public static Point GetNeigborPoint(Point sourcePoint, PointNeighbor whichNeighbor)
-        {
-            Point neighborPoint = Point.Empty;
-            switch (whichNeighbor)
-            {
-                case PointNeighbor.Top:
-                    neighborPoint = (sourcePoint.Y > 0) ? new Point(sourcePoint.X, sourcePoint.Y - 1) : Point.Empty;
-                    break;
-                case PointNeighbor.TopRight:
-                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y > 0)) ? new Point(sourcePoint.X + 1, sourcePoint.Y - 1) : Point.Empty;
-                    break;
-                case PointNeighbor.Right:
-                    neighborPoint = (sourcePoint.X < BattleField.Instance().HSize - 1) ? new Point(sourcePoint.X + 1, sourcePoint.Y) : Point.Empty;
-                    break;
-                case PointNeighbor.BottomRight:
-                    neighborPoint = ((sourcePoint.X < BattleField.Instance().HSize - 1) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? new Point(sourcePoint.X + 1, sourcePoint.Y + 1) : Point.Empty;
-                    break;
-                case PointNeighbor.Bottom:
-                    neighborPoint = (sourcePoint.Y < BattleField.Instance().VSize - 1) ? new Point(sourcePoint.X, sourcePoint.Y + 1) : Point.Empty;
-                    break;
-                case PointNeighbor.BottomLeft:
-                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y < BattleField.Instance().VSize - 1)) ? new Point(sourcePoint.X - 1, sourcePoint.Y + 1) : Point.Empty;
-                    break;
-                case PointNeighbor.Left:
-                    neighborPoint = (sourcePoint.X > 0) ? new Point(sourcePoint.X - 1, sourcePoint.Y) : Point.Empty;
-                    break;
-                case PointNeighbor.TopLeft:
-                    neighborPoint = ((sourcePoint.X > 0) && (sourcePoint.Y > 0)) ? new Point(sourcePoint.X - 1, sourcePoint.Y - 1) : Point.Empty;
-                    break;
-            }
-
-            return neighborPoint;
-        }
-        */
+        }   
 
         public Point GetRandomPoint()
         {

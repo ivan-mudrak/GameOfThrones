@@ -60,6 +60,7 @@
             this.BattleFieldView.Name = "BattleFieldView";
             this.BattleFieldView.Size = new System.Drawing.Size(400, 400);
             this.BattleFieldView.TabIndex = 1;
+            this.BattleFieldView.Paint += new System.Windows.Forms.PaintEventHandler(this.battleFieldView_OnPaint);
             // 
             // timer
             // 
@@ -112,7 +113,7 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel3.BackColor = System.Drawing.Color.Gray;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Location = new System.Drawing.Point(434, 81);
             this.panel3.Name = "panel3";

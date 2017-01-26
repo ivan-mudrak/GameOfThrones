@@ -33,12 +33,11 @@ namespace game
             rnd = new Random(Guid.NewGuid().GetHashCode());
 
             _kingdomCollection = new Collection<Kingdom>();
-
             for (int i = 0; i < kingdomsNameColorDictionary.Count; i++)
             {
                 _kingdomCollection.Add(new Kingdom(kingdomsNameColorDictionary.ElementAt(i).Key,
                                                    kingdomsNameColorDictionary.ElementAt(i).Value));
-            }                     
+            }
 
             for (int i = 0; i < HSize; i++)
             {
@@ -56,8 +55,8 @@ namespace game
                     fieldMap[i, j] = kingdomIndex;
                     _kingdomCollection.ElementAt(kingdomIndex).AttachPoint(new Point(i, j));
                 }
-            }           
-        }   
+            }
+        }
 
         public Kingdom OwnerOf(Point point)
         {
@@ -79,7 +78,7 @@ namespace game
                 if (0 < kingdom.Attack(_kingdomCollection.ElementAt(defedingKingdomIndex)))
                 {
                     ChangePointOwner(conflictPoint, _kingdomCollection.ElementAt(defedingKingdomIndex), kingdom);
-                    if (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty()) { kingdomIndiciesToRemove.Push(defedingKingdomIndex);}
+                    if (_kingdomCollection.ElementAt(defedingKingdomIndex).IsEmpty()) { kingdomIndiciesToRemove.Push(defedingKingdomIndex); }
                 }
             }
 
@@ -87,7 +86,6 @@ namespace game
             {
                 DestroyKingdom(_kingdomCollection.ElementAt(kingdomIndiciesToRemove.Pop()));
             }
-            
         }
 
         private void ChangePointOwner(Point point, Kingdom fromKingdom, Kingdom toKingdom)
@@ -102,7 +100,7 @@ namespace game
                 X = point.X * Scale,
                 Y = point.Y * Scale
             };
-            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt(fieldMap[point.X, point.Y]).Color);
+            SolidBrush brush = new SolidBrush(_kingdomCollection.ElementAt(_kingdomCollection.IndexOf(toKingdom)).Color);
             _graphics.FillRectangle(brush, rectangle);
         }
 
@@ -115,8 +113,8 @@ namespace game
         {
             int score = 0;
             var linqKingdom = from kingdom in _kingdomCollection
-                where (kingdom.Name.Equals(kingdomName))
-                select kingdom;
+                              where (kingdom.Name.Equals(kingdomName))
+                              select kingdom;
             if (linqKingdom.Any())
             {
                 score = linqKingdom.First().Points.Count;

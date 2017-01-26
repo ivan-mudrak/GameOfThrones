@@ -34,8 +34,7 @@ namespace game
         private void buttonStart_OnClick(object sender, EventArgs e)
         {
             if (!_isStarted)
-            {
-                _battleField.DrawOnGraphics(_graphics);              
+            {                      
                 buttonStart.Text = "Stop";
                 timer.Interval = 1;
                 timer.Start();
@@ -57,6 +56,11 @@ namespace game
             labelBaratheons.Text = String.Format("Baratheons - {0}", _battleField.GetKingdomScore("Baratheons"));
             labelStarks.Text = String.Format("Starks - {0}", _battleField.GetKingdomScore("Starks"));
             labelLannisters.Text = String.Format("Lannisters - {0}", _battleField.GetKingdomScore("Lannisters"));                                    
+        }
+
+        private void battleFieldView_OnPaint(object sender, PaintEventArgs e)
+        {
+            _battleField.DrawOnGraphics(_graphics);
         }
     }
 }
